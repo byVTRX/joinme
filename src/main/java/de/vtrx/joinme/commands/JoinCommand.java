@@ -2,6 +2,7 @@ package de.vtrx.joinme.commands;
 
 import de.vtrx.joinme.Main;
 import de.vtrx.joinme.util.Config;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -13,8 +14,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class JoinCommand extends Command {
     private Config cfg = Main.instance.cfg;
 
-    private String prefix = cfg.System_prefix;
-    private String lang = cfg.System_lang;
+    private String prefix = ChatColor.translateAlternateColorCodes('&', cfg.System_prefix);
 
     public JoinCommand() {
         super("join6842");
@@ -28,31 +28,21 @@ public class JoinCommand extends Command {
             ProxiedPlayer p = (ProxiedPlayer) sender;
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
             if (!target.hasPermission("system.joinme")) {
-                if (lang.equalsIgnoreCase("DE")) {
-                    p.sendMessage(prefix + "§cDer Spieler ist kein §5Youtuber§c/§eTeammitglied§c!");
-                    return;
-                } else if (lang.equalsIgnoreCase("EN")) {
-                    p.sendMessage(prefix + "§cThe player is no §5Youtuber§c/§eTeammitglied§c!");
-                    return;
-                }
+
+                    p.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', cfg.System_targetNoTeammember));
 
 
             } else {
-                if (target.getName().equalsIgnoreCase(p.getName())) {
+                if (target.getName().equalsIgnoreCase(p.getName()) || target.getServer().getInfo().getName().equalsIgnoreCase(p.getServer().getInfo().getName())) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', cfg.System_sameServer));
                     return;
                 }
                 if (!JoinmeCommand.joinme.contains(target)) {
-                    if (lang.equalsIgnoreCase("DE")) {
-                        p.sendMessage(prefix + "§cDie Joinmeanfrage von diesem Spieler ist bereits abgelaufen!");
-                        return;
-                    } else if (lang.equalsIgnoreCase("EN")) {
-                        p.sendMessage(prefix + "§cThe player hasn't got any open joinme invitations!");
-                    } else {
-                        p.sendMessage(prefix + "§cThere seems to be a problem with your config.yml. §cPlease set §cthe §clanguage §ceither §cto 'DE' or 'EN'.");
-                    }
+                        p.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', cfg.System_noOpenJoinMeInvitations));
+
                 } else {
                     p.connect(target.getServer().getInfo());
-                    p.sendMessage(prefix + "§aDu bist nun auf §e" + target.getServer().getInfo().getName());
+                    p.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', cfg.System_connectedMsg).replace("%server%", target.getServer().getInfo().getName()));
                 }
             }
 

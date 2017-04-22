@@ -1,7 +1,7 @@
-name: ${project.artifactId}
-version: ${project.version}
-author: ${project.groupId}
-main: ${project.groupId}.${project.artifactId}.Main
+name: JoinMe
+version: 1.0
+author: byVTRX
+main: de.vtrx.joinme.Main
 commands:
   joinme:
   join6842:
