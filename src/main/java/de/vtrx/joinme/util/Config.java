@@ -9,7 +9,7 @@ import java.io.File;
  */
 public class Config extends net.craftminecraft.bungee.bungeeyaml.supereasyconfig.Config {
     public Config(Plugin plugin) {
-        CONFIG_FILE = new File("plugins//" + "BungeeSystem", "config.yml");
+        CONFIG_FILE = new File("plugins//" + "JoinMe", "config.yml");
         CONFIG_HEADER = "JoinMe Configuration file";
     }
 
